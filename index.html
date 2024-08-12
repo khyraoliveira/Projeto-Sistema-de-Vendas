@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Vendas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão de Clientes, Produtos e Pedidos</h1>
+
+        <!-- Formulário para adicionar clientes -->
+        <div class="form-section">
+            <h2>Adicionar Cliente</h2>
+            <form id="clientForm">
+                <label for="nome_cliente">Nome do Cliente:</label>
+                <input type="text" id="nome_cliente" name="nome_cliente" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" required>
+
+                <button type="submit">Adicionar Cliente</button>
+            </form>
+        </div>
+
+        <!-- Formulário para adicionar produtos -->
+        <div class="form-section">
+            <h2>Adicionar Produto</h2>
+            <form id="productForm">
+                <label for="nome_produto">Nome do Produto:</label>
+                <input type="text" id="nome_produto" name="nome_produto" required>
+
+                <label for="preco">Preço:</label>
+                <input type="number" id="preco" name="preco" step="0.01" required>
+
+                <label for="categoria">Categoria:</label>
+                <input type="text" id="categoria" name="categoria" required>
+
+                <button type="submit">Adicionar Produto</button>
+            </form>
+        </div>
+
+        <!-- Formulário para adicionar pedidos -->
+        <div class="form-section">
+            <h2>Adicionar Pedido</h2>
+            <form id="orderForm">
+                <label for="data_pedido">Data do Pedido:</label>
+                <input type="date" id="data_pedido" name="data_pedido" required>
+
+                <label for="id_cliente">ID do Cliente:</label>
+                <input type="number" id="id_cliente" name="id_cliente" required>
+
+                <label for="id_produto">ID do Produto:</label>
+                <input type="number" id="id_produto" name="id_produto" required>
+
+                <button type="submit">Adicionar Pedido</button>
+            </form>
+        </div>
+
+        <!-- Tabelas para visualizar dados -->
+        <div class="table-section">
+            <h2>Clientes</h2>
+            <table id="clientsTable">
+                <thead>
+                    <tr>
+                        <th>ID Cliente</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Endereço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Produtos</h2>
+            <table id="productsTable">
+                <thead>
+                    <tr>
+                        <th>ID Produto</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Categoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Pedidos</h2>
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>ID Pedido</th>
+                        <th>Data</th>
+                        <th>ID Cliente</th>
+                        <th>ID Produto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
