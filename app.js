@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ordersTableBody = document.querySelector('#ordersTable tbody');
 
     // Função para atualizar as tabelas
-    function updateTable(tableBody, data, fields) {
+    function updateTable(tableBody, data, fields, deleteEndpoint) {
         tableBody.innerHTML = ''; // Limpa a tabela existente
         data.forEach(item => {
             const row = document.createElement('tr');
@@ -16,16 +16,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 cell.textContent = item[field];
                 row.appendChild(cell);
             });
+
+            // Cria botão de deletar
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Deletar';
+            deleteButton.addEventListener('click', async () => {
+                if (confirm('Tem certeza que deseja deletar este item?')) {
+                    try {
+                        await fetch(`http://localhost:3000/${deleteEndpoint}/${item[fields[0]]}`, {
+                            method: 'DELETE',
+                        });
+                        alert('Item deletado com sucesso!');
+                        fetchData(deleteEndpoint, tableBody, fields, deleteEndpoint); // Atualiza a tabela após deletar
+                    } catch (error) {
+                        console.error(`Erro ao deletar ${deleteEndpoint}:`, error);
+                    }
+                }
+            });
+            const actionCell = document.createElement('td');
+            actionCell.appendChild(deleteButton);
+            row.appendChild(actionCell);
+
             tableBody.appendChild(row);
         });
     }
 
     // Função para buscar dados do servidor
-    async function fetchData(endpoint, tableBody, fields) {
+    async function fetchData(endpoint, tableBody, fields, deleteEndpoint) {
         try {
             const response = await fetch(`http://localhost:3000/${endpoint}`);
             const data = await response.json();
-            updateTable(tableBody, data, fields);
+            updateTable(tableBody, data, fields, deleteEndpoint);
         } catch (error) {
             console.error(`Erro ao buscar ${endpoint}:`, error);
         }
@@ -51,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(data)
             });
             clientForm.reset(); // Limpa o formulário após a inserção
-            fetchData('clientes', clientsTableBody, ['id_cliente', 'nome_cliente', 'email', 'endereco']);
+            fetchData('clientes', clientsTableBody, ['id_cliente', 'nome_cliente', 'email', 'endereco'], 'clientes');
             alert('Cliente adicionado com sucesso!');
         } catch (error) {
             console.error('Erro ao adicionar cliente:', error);
@@ -78,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(data)
             });
             productForm.reset(); // Limpa o formulário após a inserção
-            fetchData('produtos', productsTableBody, ['id_produto', 'nome_produto', 'preco', 'categoria']);
+            fetchData('produtos', productsTableBody, ['id_produto', 'nome_produto', 'preco', 'categoria'], 'produtos');
             alert('Produto adicionado com sucesso!');
         } catch (error) {
             console.error('Erro ao adicionar produto:', error);
@@ -104,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify(data)
             });
-            fetchData('pedidos', ordersTableBody, ['id_pedido', 'data_pedido', 'id_cliente', 'id_produto']);
+            fetchData('pedidos', ordersTableBody, ['id_pedido', 'data_pedido', 'id_cliente', 'id_produto'], 'pedidos');
             orderForm.reset(); // Limpa o formulário
             alert('Pedido adicionado com sucesso!');
         } catch (error) {
@@ -113,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Inicializa as tabelas com dados existentes
-    fetchData('clientes', clientsTableBody, ['id_cliente', 'nome_cliente', 'email', 'endereco']);
-    fetchData('produtos', productsTableBody, ['id_produto', 'nome_produto', 'preco', 'categoria']);
-    fetchData('pedidos', ordersTableBody, ['id_pedido', 'data_pedido', 'id_cliente', 'id_produto']);
+    fetchData('clientes', clientsTableBody, ['id_cliente', 'nome_cliente', 'email', 'endereco'], 'clientes');
+    fetchData('produtos', productsTableBody, ['id_produto', 'nome_produto', 'preco', 'categoria'], 'produtos');
+    fetchData('pedidos', ordersTableBody, ['id_pedido', 'data_pedido', 'id_cliente', 'id_produto'], 'pedidos');
 });
